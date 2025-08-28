@@ -37,10 +37,6 @@ public class PaymentDetails {
 	private StudentConcessionType studentConcessionType;
 
 	@ManyToOne
-	@JoinColumn(name = "payment_mode_id")
-	private PaymentMode paymentMode;
-
-	@ManyToOne
 	@JoinColumn(name = "acdc_year_id")
 	private AcademicYear acedemicYear;
 

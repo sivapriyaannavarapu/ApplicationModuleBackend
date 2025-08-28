@@ -13,15 +13,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sce_acdc_lang", schema = "sce_student")
-public class AcademicLanguage {
-
+@Table(name="sce_state_app" , schema = "sce_application")
+public class StateApp {
+	
 	@Id
-	private int acdc_lang_id;
-	private String acdc_lang;
-
+	private int state_app_id;
+	private int total_no_of_app;
+	private int app_start_no;
+	private int app_end_no;
+	private float amount;
+	
 	@ManyToOne
-	@JoinColumn(name = "lang_id")
-	private Language language;
-
+	@JoinColumn(name = "acdc_year_id")
+	private AcademicYear academicYear;
+	
+	@ManyToOne
+	@JoinColumn(name = "state_id")
+	private State state;
 }

@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sce_acdc_lang", schema = "sce_student")
-public class AcademicLanguage {
-
+@Table(name="sce_sub_stream" , schema = "sce_course")
+public class SubStream {
+	
 	@Id
-	private int acdc_lang_id;
-	private String acdc_lang;
-
+	private int sub_stream_id;
+	private String sub_stream;
+	
 	@ManyToOne
-	@JoinColumn(name = "lang_id")
-	private Language language;
-
+	@JoinColumn(name = "stream_id")
+	private Stream stream;
+	
 }

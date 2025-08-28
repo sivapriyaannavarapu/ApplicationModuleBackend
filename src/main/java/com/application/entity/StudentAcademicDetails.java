@@ -1,8 +1,6 @@
 package com.application.entity;
 
 import java.time.LocalDate;
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -27,6 +25,15 @@ public class StudentAcademicDetails {
 	private String last_name;
 	private LocalDate adms_date;
 	private int created_by;
+	private LocalDate dob;
+	private int course_track_id;
+	private int course_batch;
+	private String school_name;
+	private String admission_referred_by;
+	private String score_app_no;
+	private int score_marks;
+	private LocalDate course_date;
+	
 
 	@ManyToOne
 	@JoinColumn(name = "acdc_year_id")
@@ -75,5 +82,33 @@ public class StudentAcademicDetails {
 	@ManyToOne
 	@JoinColumn(name = "pro_id", referencedColumnName = "emp_id")
 	private Employee employee;
+	
+	@ManyToOne
+	@JoinColumn(name = "school_state_id", referencedColumnName = "state_id")
+	private State state;
+	
+	@ManyToOne
+	@JoinColumn(name = "school_district_id", referencedColumnName = "district_id")
+	private District district;
+	
+	@ManyToOne
+	@JoinColumn(name = "school_type_id")
+	private SchoolType schoolType;
+	
+	@ManyToOne
+	@JoinColumn(name = "stream_id")
+	private Stream stream;
+	
+	@ManyToOne
+	@JoinColumn(name = "program_id")
+	private ProgramName programName;
+	
+	@ManyToOne
+	@JoinColumn(name = "exam_program_id")
+	private ExamProgram examProgram;
+	
+	@ManyToOne
+	@JoinColumn(name = "cmps_course_track_id")
+	private CmpsCourseTrack cmpsCourseTrack;
 
 }

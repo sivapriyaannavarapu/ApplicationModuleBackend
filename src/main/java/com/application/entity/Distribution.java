@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_app_distribution", schema = "sce_application")
+@Table(name="sce_app_distrubution", schema = "sce_application")
 public class Distribution {
 
     @Id
-    @Column(name = "app_distribution_id")
+    @Column(name = "app_distrubution_id")
     private int appDistributionId;
 
     @Column(name = "app_start_no")
@@ -58,6 +58,6 @@ public class Distribution {
     private District district;
 
     @ManyToOne
-    @JoinColumn(name = "campus_id")
+    @JoinColumn(name = "cmps_id")
     private Campus campus;
 }

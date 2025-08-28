@@ -1,5 +1,4 @@
 package com.application.entity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,15 +12,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sce_acdc_lang", schema = "sce_student")
-public class AcademicLanguage {
-
+@Table(name = "sce_sct_course_track" , schema = "sce_course")
+public class SctCourseTrack {
+	
 	@Id
-	private int acdc_lang_id;
-	private String acdc_lang;
-
+	private int sct_course_track_id;
+	private int sct_incharge_id;
+	
 	@ManyToOne
-	@JoinColumn(name = "lang_id")
-	private Language language;
-
+	@JoinColumn(name = "section_id")
+	private Section section;
+	
+	@ManyToOne
+	@JoinColumn(name = "cmps_course_track_id")
+	private CmpsCourseTrack cmpsCourseTrack;
 }

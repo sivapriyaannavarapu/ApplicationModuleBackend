@@ -1,5 +1,7 @@
 package com.application.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,15 +15,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sce_acdc_lang", schema = "sce_student")
-public class AcademicLanguage {
-
+@Table(name="sce_class_acdc_year" , schema = "sce_course")
+public class ClassAcademeicYear {
+	
 	@Id
-	private int acdc_lang_id;
-	private String acdc_lang;
-
+	private int class_acdc_year_id;
+	private String join_year;
+	private int acdc_id;
+	private int status;
+	private LocalDate start_date;
+	private LocalDate end_date;
+	
 	@ManyToOne
-	@JoinColumn(name = "lang_id")
-	private Language language;
-
+	@JoinColumn(name = "class_id")
+	private StudentClass studentClass;
 }

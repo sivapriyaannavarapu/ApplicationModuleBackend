@@ -21,8 +21,7 @@ public class Campaign {
     
     @ManyToOne
     @JoinColumn(name = "cmps_id") 
-    private Campus campus;
-    
+    private Campus campus;   
 
     @ManyToOne
     @JoinColumn(name = "district_id") 
