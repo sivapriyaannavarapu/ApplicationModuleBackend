@@ -1,6 +1,15 @@
 package com.application.entity;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,14 +22,15 @@ import lombok.NoArgsConstructor;
 public class Distribution {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "app_distrubution_id")
     private int appDistributionId;
 
     @Column(name = "app_start_no")
-    private String appStartNo;
+    private int appStartNo;
 
     @Column(name = "app_end_no")
-    private String appEndNo;
+    private int appEndNo;
 
     @Column(name = "total_app_count")
     private int totalAppCount;
@@ -60,4 +70,13 @@ public class Distribution {
     @ManyToOne
     @JoinColumn(name = "cmps_id")
     private Campus campus;
+    
+    @Column(name = "created_date")
+    private LocalDate issueDate;
+    
+    @ManyToOne
+    @JoinColumn(name = "acdc_year_id")
+    private AcademicYear academicYear;
+
+
 }

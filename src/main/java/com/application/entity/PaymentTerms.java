@@ -22,6 +22,6 @@ public class PaymentTerms {
 	private float amount;
 	
 	@ManyToOne
-	@JoinColumn(name = "fee_head_detls_id" , referencedColumnName = "fee_head_combinations_id")
+	@JoinColumn(name = "fee_head_detls_id" , referencedColumnName = "fee_head_combination_id")
 	private FeeHeadCombinations feeHeadCombinations;
 }

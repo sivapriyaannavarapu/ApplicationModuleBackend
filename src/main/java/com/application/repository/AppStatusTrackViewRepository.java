@@ -3,9 +3,9 @@ package com.application.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.application.entity.SchoolType;
+import com.application.entity.AppStatusTrackView;
 
 @Repository
-public interface SchoolTypeRepository extends JpaRepository<SchoolType, Integer>{
+public interface AppStatusTrackViewRepository extends JpaRepository<AppStatusTrackView, Integer>{
 
 }

@@ -93,7 +93,7 @@ public class StudentAcademicDetails {
 	
 	@ManyToOne
 	@JoinColumn(name = "school_type_id")
-	private SchoolType schoolType;
+	private CampusSchoolType campusSchoolType;
 	
 	@ManyToOne
 	@JoinColumn(name = "stream_id")

@@ -22,6 +22,7 @@ public class StateApp {
 	private int app_start_no;
 	private int app_end_no;
 	private float amount;
+	private int created_by;
 	
 	@ManyToOne
 	@JoinColumn(name = "acdc_year_id")
