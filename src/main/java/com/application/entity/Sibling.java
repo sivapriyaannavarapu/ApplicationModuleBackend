@@ -26,7 +26,7 @@ public class Sibling {
 	private StudentAcademicDetails studentAcademicDetails;
 	
 	@ManyToOne
-	@JoinColumn(name = "sibling_type" , referencedColumnName = "stud_relation_id")
+	@JoinColumn(name = "student_sibling_type" , referencedColumnName = "student_relation_id")
 	private StudentRelation studentRelation;
 	
 	@ManyToOne

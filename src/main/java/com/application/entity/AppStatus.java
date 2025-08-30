@@ -22,16 +22,25 @@ public class AppStatus {
 	private String reason;
 	private int is_active;
 	private int created_by;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "app_issued_type_id", referencedColumnName = "app_issued_id")
-	private AppIssuedType appIssuedType;
-
-	@ManyToOne
-	@JoinColumn(name = "emp_id")
+	@JoinColumn(name = "pro_id", referencedColumnName = "emp_id")
 	private Employee employee;
+	
+	@ManyToOne
+	@JoinColumn(name = "zone_emp_id", referencedColumnName = "emp_id")
+	private Employee employee1;
+	
+	@ManyToOne
+	@JoinColumn(name = "dgm_emp_id", referencedColumnName = "emp_id")
+	private Employee employee2;
 
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
+	
+	@ManyToOne
+	@JoinColumn(name = "cmps_id")
+	private Campus campus;
+	
 }

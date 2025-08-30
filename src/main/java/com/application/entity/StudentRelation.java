@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_stud_relation" , schema = "sce_student")
+@Table(name="sce_stud_sibling_relation" , schema = "sce_student")
 public class StudentRelation {
 	
 	@Id
-	private int stud_relation_id;
-	private String relation_type;
+	private int student_relation_id;
+	private String student_relation_type;
 }

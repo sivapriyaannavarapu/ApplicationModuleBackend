@@ -11,4 +11,5 @@ import com.application.entity.Campus;
 public interface CampusRepository extends JpaRepository<Campus, Integer>{
 	
 	List<Campus> findByZoneZoneId(int zoneId);
+	List<Campus> findByCityCityId(int cityId);
 }
