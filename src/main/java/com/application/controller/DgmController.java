@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
  
 @RestController
-@RequestMapping("/api/application")
+@RequestMapping("/distribution/dgm")
 @CrossOrigin(origins = "*")
 public class DgmController {
  
@@ -60,7 +60,7 @@ public class DgmController {
         }
     }
  
-    @PostMapping("/submit-form")
+    @PostMapping("/save")
     public ResponseEntity<String> submitForm(@RequestBody FormSubmissionDTO formDto) {
         try {
             applicationService.submitForm(formDto);

@@ -1,5 +1,7 @@
 package com.application.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -20,4 +22,5 @@ public class AppStatusTrackView {
 	private int cmps_id;
 	private String cmps_name;
 	private String status;
+	private LocalDateTime date;
 }

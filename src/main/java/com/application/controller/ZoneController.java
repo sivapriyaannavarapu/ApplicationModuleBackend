@@ -24,7 +24,7 @@ import com.application.repository.EmployeeRepository;
 import com.application.service.ZoneService;
 
 @RestController
-@RequestMapping("/api/distribution-options") // Base URL for these endpoints
+@RequestMapping("/distribution/zone") // Base URL for these endpoints
 @CrossOrigin("*") // Allows requests from your frontend
 public class ZoneController {
 
