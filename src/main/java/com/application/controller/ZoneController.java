@@ -21,18 +21,20 @@ import com.application.entity.Employee;
 import com.application.entity.State;
 import com.application.entity.Zone;
 import com.application.repository.EmployeeRepository;
-import com.application.service.DistributionService;
+import com.application.service.ZoneService;
 
 @RestController
 @RequestMapping("/api/distribution-options") // Base URL for these endpoints
 @CrossOrigin("*") // Allows requests from your frontend
-public class DistributionController {
+public class ZoneController {
 
 	@Autowired
-	private DistributionService distributionService;
+	private ZoneService distributionService;
 	
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+
 
 	@GetMapping("/academic-years")
 	public ResponseEntity<List<AcademicYear>> getAcademicYears() {
@@ -79,6 +81,10 @@ public class DistributionController {
 
 	@PostMapping("/save")
 	public ResponseEntity<String> saveDistribution(@RequestBody DistributionRequestDTO request) {
+	    
+	    // ADD THIS LINE FOR DEBUGGING
+	    System.out.println("--- RECEIVED DATA IN CONTROLLER --- \n" + request.toString());
+
 	    try {
 	        distributionService.saveDistribution(request);
 	        return ResponseEntity.ok("Distribution saved successfully!");
@@ -88,8 +94,30 @@ public class DistributionController {
 	    }
 	}
 	
+	// Add this method inside your DistributionController class
+
+	@GetMapping("/app-end-number")
+	public ResponseEntity<Integer> getAppEndNumber(@RequestParam int stateId, @RequestParam int userId) {
+	    Integer endNo = distributionService.getAppEndNoForUser(stateId, userId);
+	    
+	    if (endNo != null) {
+	        // If the number is found, return it
+	        return ResponseEntity.ok(endNo);
+	    } else {
+	        // If no record is found, return a 404 Not Found error
+	        return ResponseEntity.notFound().build();
+	    }
+	}
+	
 	 @GetMapping("/{empId}/mobile")
 	    public String getMobileByEmpId(@PathVariable int empId) {
 	        return employeeRepository.findMobileNoByEmpId(empId);
 	    }
+	   // GET /api/zonal-accountants/zone/1/employees
+	    @GetMapping("/zone/{zoneId}/employees")
+	    public List<Employee> getEmployeesByZone(@PathVariable int zoneId) {
+	        return distributionService.getEmployeesByZone(zoneId);
+	    }
+	 
+	 
 }
