@@ -33,6 +33,7 @@ public class StudentAcademicDetails {
 	private String score_app_no;
 	private int score_marks;
 	private LocalDate course_date;
+	private int additional_course_fee;
 	
 
 	@ManyToOne

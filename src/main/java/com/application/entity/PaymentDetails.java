@@ -26,7 +26,7 @@ public class PaymentDetails {
 
 	@ManyToOne
 	@JoinColumn(name = "payment_mode_id")
-	private PaymentMode paymenMode;
+	private PaymentMode paymentMode;
 
 	@ManyToOne
 	@JoinColumn(name = "stud_adms_id")

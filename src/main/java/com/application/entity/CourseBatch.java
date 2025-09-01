@@ -2,6 +2,7 @@ package com.application.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,13 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_course_batch" , schema = "sce_course")
+@Table(name = "sce_course_batch", schema = "sce_course")
 public class CourseBatch {
-	
-	
+
 	@Id
 	private int course_batch_id;
-	private String course_batch_name;
+
+	@Column(name = "course_batch_name")
+	private String courseBatchName;
 	private LocalDate start_date;
 	private LocalDate end_date;
 	private int acdc_id;

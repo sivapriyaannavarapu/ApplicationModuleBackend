@@ -3,9 +3,9 @@ package com.application.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.application.entity.Dgm;
+import com.application.entity.Mandal;
 
 @Repository
-public interface DgmRepository extends JpaRepository<Dgm, Integer> {
-  
+public interface MandalRepository extends JpaRepository<Mandal, Integer>{
+
 }

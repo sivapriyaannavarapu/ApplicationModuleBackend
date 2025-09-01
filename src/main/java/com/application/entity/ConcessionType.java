@@ -1,4 +1,4 @@
-package com.application.entity;
+package com.application.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,5 +17,5 @@ public class ConcessionType {
 	
 	@Id
 	private int conc_type_id;
-	private String conc_type;
+	private String conc_type;	private float general_conc_amount;
 }

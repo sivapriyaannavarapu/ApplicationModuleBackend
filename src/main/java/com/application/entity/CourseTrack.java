@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,7 +18,9 @@ import lombok.NoArgsConstructor;
 public class CourseTrack {
 	
 	@Id
-	private int course_track_id;
+	 @Column(name = "course_track_id")
+    private int courseTrackId;
+
 	private String course_track_code;
 	private String course_track_name;
 	private int acdc_id;

@@ -15,6 +15,7 @@ import com.application.dto.AppNumberRangeDTO;
 import com.application.dto.GenericDropdownDTO;
 import com.application.entity.AcademicYear;
 import com.application.entity.City;
+import com.application.entity.District;
 import com.application.entity.Employee;
 import com.application.entity.State;
 import com.application.entity.Zone;
@@ -30,6 +31,9 @@ public class DistributionGet {
 	
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	CampusService campusService;
 	
 	@Autowired
 	private ZoneService distributionService;
@@ -152,6 +156,12 @@ public class DistributionGet {
 	    @GetMapping("/pros/{campusId}")
 	    public List<GenericDropdownDTO> getProsByCampus(@PathVariable int campusId) {
 	        return dgmService.getProsByCampusId(campusId);
+	    }
+	    
+	    @GetMapping("/getalldistricts")
+	    public List<District> getAllDistricts()
+	    {
+	    	return campusService.getAllDistricts();
 	    }
 	 
 	 

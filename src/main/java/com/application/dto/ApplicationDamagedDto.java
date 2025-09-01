@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationDamagedDto {
-	
-    private int appNo;
+
+    private Integer applicationNo;
+    private Integer statusId;
     private String reason;
-    private int createdBy;
-    private int proId;
-    private int zoneEmpId;
-    private int dgmEmpId;
-    private int statusId;
-    private int campusId;
+    private Integer campusId;
+    private Integer proId;
+    private Integer zoneEmpId;
+    private Integer dgmEmpId;
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_stud_conc" , schema = "sce_student")
+@Table(name="sce_stud_conc_detls" , schema = "sce_student")
 public class StudentConcessionType {
 
 	@Id

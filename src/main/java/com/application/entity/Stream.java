@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -18,7 +19,8 @@ public class Stream {
 	
 	@Id
 	private int stream_id;
-	private String stream_name;
+	@Column(name = "stream_name")
+    private String streamName; 
 	private String stream_color;
 	private int test_stream;
 	private int onsite_reg;

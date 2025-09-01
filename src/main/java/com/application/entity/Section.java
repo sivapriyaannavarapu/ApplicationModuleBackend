@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,12 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_section" , schema = "sce_student")
+@Table(name = "sce_section", schema = "sce_student")
 public class Section {
 
 	@Id
 	private int section_id;
-	private String section_name;
+	@Column(name = "section_name")
+	private String sectionName;
 
 	@ManyToOne
 	@JoinColumn(name = "cmps_id")

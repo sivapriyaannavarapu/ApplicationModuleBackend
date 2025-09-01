@@ -38,6 +38,11 @@ public class CampusService {
         return stateRepository.findAll().stream()
                 .map(s -> new GenericDropdownDTO(s.getStateId(), s.getStateName())).collect(Collectors.toList());
     }
+    
+    public List<District> getAllDistricts()
+    {
+    	return districtRepository.findAll();
+    }
     public List<GenericDropdownDTO> getDistrictsByStateId(int stateId) {
         return districtRepository.findByStateStateId(stateId).stream()
                 .map(d -> new GenericDropdownDTO(d.getDistrictId(), d.getDistrictName())).collect(Collectors.toList());
