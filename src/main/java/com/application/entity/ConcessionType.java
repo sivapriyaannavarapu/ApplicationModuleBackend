@@ -1,6 +1,6 @@
 package com.application.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.Column;import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class ConcessionType {
 	
 	
-	@Id
-	private int conc_type_id;
-	private String conc_type;	private float general_conc_amount;
+	@Id	@Column(name = "conc_type_id")
+	private int concTypeId;
+	private String conc_type;	private Float general_conc_amount;
 }

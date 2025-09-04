@@ -1,5 +1,7 @@
 package com.application.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +25,7 @@ public class PaymentDetails {
 	private float paid_amount;
 	private float due;
 	private int created_by;
+	private Date application_fee_pay_date;
 
 	@ManyToOne
 	@JoinColumn(name = "payment_mode_id")
@@ -47,4 +50,6 @@ public class PaymentDetails {
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
+	
+	
 }

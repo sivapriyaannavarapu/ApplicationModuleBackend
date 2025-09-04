@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -22,9 +23,9 @@ public class StudentPersonalDetails {
 	private int stud_personal_id;
 	private String father_name;
 	private String mother_name;
-	private int parent_mobile_no;
+	private BigInteger parent_mobile_no;
 	private String parent_mail;
-	private int stud_aadhaar_no;
+	private BigInteger stud_aadhaar_no;
 	private String occupation;
 	private int is_active;
 	private int created_by;

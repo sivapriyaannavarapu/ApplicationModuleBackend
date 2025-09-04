@@ -1,13 +1,13 @@
 package com.application.service;
  
+import com.application.dto.AppStatusTrackDTO;
 import com.application.dto.MetricCardDTO;
-import com.application.entity.AppStatusTrack;
 import com.application.repository.AppStatusTrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.Optional;
  
 @Service
 public class AppStatusTrackService {
@@ -16,36 +16,33 @@ public class AppStatusTrackService {
     private AppStatusTrackRepository appStatusTrackRepository;
  
     public List<MetricCardDTO> getDashboardCards() {
-        // Fetch the latest 2 records from the database
-        List<AppStatusTrack> stats = appStatusTrackRepository.findTop2ByOrderByAppStatsTrkIdDesc();
+        // Fetch the aggregated stats from the repository
+        Optional<AppStatusTrackDTO> currentStatsOptional = appStatusTrackRepository.findLatestAggregatedStats();
+        
+        // Provide a default empty DTO if no data is found
+        AppStatusTrackDTO currentStats = currentStatsOptional.orElse(new AppStatusTrackDTO());
  
-        if (stats.size() < 2) {
-            // Not enough data to calculate percentages, return an empty list
-            return new ArrayList<>();
-        }
- 
-        AppStatusTrack currentStats = stats.get(0);
-        AppStatusTrack previousStats = stats.get(1);
         List<MetricCardDTO> cards = new ArrayList<>();
  
-        // Helper function to calculate percentage change and handle division by zero
-        BiFunction<Integer, Integer, Integer> calculatePercentage = (current, previous) -> {
-            if (previous == 0) {
-                return 0; // Avoid division by zero
-            }
-            return (int) (((double) (current - previous) / previous) * 100);
-        };
- 
-        // Map each metric to a DTO with its calculated percentage
-        cards.add(new MetricCardDTO("Total Applications", currentStats.getTotalApp(), calculatePercentage.apply(currentStats.getTotalApp(), previousStats.getTotalApp()), "total_applications"));
-        cards.add(new MetricCardDTO("Sold", currentStats.getAppSold(), calculatePercentage.apply(currentStats.getAppSold(), previousStats.getAppSold()), "sold"));
-        cards.add(new MetricCardDTO("Confirmed", currentStats.getAppConfirmed(), calculatePercentage.apply(currentStats.getAppConfirmed(), previousStats.getAppConfirmed()), "confirmed"));
-        cards.add(new MetricCardDTO("Available", currentStats.getAppAvailable(), calculatePercentage.apply(currentStats.getAppAvailable(), previousStats.getAppAvailable()), "available"));
-        cards.add(new MetricCardDTO("Issued", currentStats.getAppIssued(), calculatePercentage.apply(currentStats.getAppIssued(), previousStats.getAppIssued()), "issued"));
-        cards.add(new MetricCardDTO("Damaged", currentStats.getAppDamaged(), calculatePercentage.apply(currentStats.getAppDamaged(), previousStats.getAppDamaged()), "damaged"));
-//        cards.add(new MetricCardDTO("With Pro", currentStats.getWithPro(), calculatePercentage.apply(currentStats.getWithPro(), previousStats.getWithPro()), "with_pro"));
-        cards.add(new MetricCardDTO("Unavailable", currentStats.getAppUnavailable(), calculatePercentage.apply(currentStats.getAppUnavailable(), previousStats.getAppUnavailable()), "unavailable"));
+        // Map each metric to a MetricCardDTO. The percentage change is set to 0.
+        cards.add(new MetricCardDTO("Total Applications", Math.toIntExact(currentStats.getTotalApplications() != null ? currentStats.getTotalApplications() : 0L), 0, "total_applications"));
+        cards.add(new MetricCardDTO("Sold", Math.toIntExact(currentStats.getAppSold() != null ? currentStats.getAppSold() : 0L), 0, "sold"));
+        cards.add(new MetricCardDTO("Confirmed", Math.toIntExact(currentStats.getAppConfirmed() != null ? currentStats.getAppConfirmed() : 0L), 0, "confirmed"));
+        cards.add(new MetricCardDTO("Available", Math.toIntExact(currentStats.getAppAvailable() != null ? currentStats.getAppAvailable() : 0L), 0, "available"));
+        cards.add(new MetricCardDTO("Issued", Math.toIntExact(currentStats.getAppIssued() != null ? currentStats.getAppIssued() : 0L), 0, "issued"));
+        cards.add(new MetricCardDTO("Damaged", Math.toIntExact(currentStats.getAppDamaged() != null ? currentStats.getAppDamaged() : 0L), 0, "damaged"));
+        cards.add(new MetricCardDTO("Unavailable", Math.toIntExact(currentStats.getAppUnavailable() != null ? currentStats.getAppUnavailable() : 0L), 0, "unavailable"));
  
         return cards;
     }
+    
+    public AppStatusTrackDTO getAppStatusByIssuedTypeAndEmployee(Integer issuedTypeId, Integer empId) {
+        // Call the new repository method to fetch the aggregated data
+        Optional<AppStatusTrackDTO> statsOptional = appStatusTrackRepository.findAggregatedStatsByIssuedTypeAndEmployee(issuedTypeId, empId);
+
+        // Return the DTO if present, otherwise return a new, empty DTO to prevent NullPointerException.
+        return statsOptional.orElse(new AppStatusTrackDTO());
+    }
+    
+    
 }

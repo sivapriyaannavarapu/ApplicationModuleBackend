@@ -11,6 +11,7 @@ import com.application.entity.StudentAcademicDetails;
 @Repository
 public interface StudentAcademicDetailsRepository  extends JpaRepository<StudentAcademicDetails, Integer>{
 
-	Optional<StudentAcademicDetails> findByStudAdmsNo(String admissionNo);
+	Optional<StudentAcademicDetails> findByStudAdmsNo(String studAdmissionNo);
+//	StudentAcademicDetails findByStudAdmsNum(String studAdmissionNo);
 
 }

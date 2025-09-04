@@ -1,40 +1,36 @@
 package com.application.dto;
 
-import lombok.Data;
+import java.util.Date;
+import java.util.List;
 
-import java.time.LocalDate;
+import lombok.Data;
 
 @Data
 public class ApplicationConfirmationDto {
 
-    // Admission details
-    private String admissionNumber;
+    private String admissionNo;
     private String firstName;
     private String lastName;
     private String parentName;
-    private String gender;
+    private Integer gender;
+    private Double applicationFee;
 
-    // Payments
-    private float appFee;         // matches app_fee in entity
-    private float concAmount;     // matches conc_amount
-    
+    // Concessions (3 entries expected)
+    private List<ConcessionDTO> concessions;
 
-    // Concessions
-//    private float firstYearConcession;
-//    private float secondYearConcession;
-//    private float thirdYearConcession;
-    private String concessionReason;
-    private String concessionType;
-
-    // Course/Batch details
-    private Integer courseTrackId;
+    // Second form fields
+    private Integer joinYearId;
+    private Integer streamId;
     private Integer programId;
     private Integer examProgramId;
-    private Integer courseBatchId;
+    private Integer courseTrackId;
+    private Integer batchId;
     private Integer sectionId;
+    private Date app_conf_date;
 
-    // Auto-populated from DB
-    private LocalDate courseStartDate;
-    private LocalDate courseEndDate;
-    private float courseFee;
+    // Not posted, just auto-populated in UI
+//    private transient LocalDate courseBatchStartDate;
+//    private transient LocalDate courseBatchEndDate;
+//    private transient Double courseFee;
 }
+

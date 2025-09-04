@@ -18,12 +18,11 @@ import lombok.NoArgsConstructor;
 public class CourseTrack {
 	
 	@Id
-	 @Column(name = "course_track_id")
+	@Column(name = "course_track_id")
     private int courseTrackId;
-
 	private String course_track_code;
 	private String course_track_name;
-	private int acdc_id;
+	private Integer acdc_id;
 	
 	@ManyToOne
 	@JoinColumn(name = "orientation_id")

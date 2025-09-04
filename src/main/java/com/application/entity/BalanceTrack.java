@@ -46,7 +46,7 @@ public class BalanceTrack {
     private AcademicYear academicYear;
 
     @ManyToOne
-    @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
+    @JoinColumn(name = "emp_id")
     private Employee employee;
 
     @ManyToOne

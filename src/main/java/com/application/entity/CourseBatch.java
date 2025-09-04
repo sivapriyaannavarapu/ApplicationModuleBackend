@@ -18,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class CourseBatch {
 
 	@Id
-	private int course_batch_id;
-
+	@Column(name = "course_batch_id")
+	private int courseBatchId;
 	@Column(name = "course_batch_name")
 	private String courseBatchName;
 	private LocalDate start_date;

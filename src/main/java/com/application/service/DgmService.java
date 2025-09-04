@@ -45,6 +45,15 @@ public class DgmService {
                 .map(city -> new GenericDropdownDTO(city.getCityId(), city.getCityName()))
                 .collect(Collectors.toList());
     }
+    
+    public List<Zone> findAllZones(){
+		return zoneRepository.findAll();
+	}
+    
+    public List<Campus> fetchAllCampuses(){
+		return campusRepository.findAll();
+	}
+ 
  
     public List<GenericDropdownDTO> getZonesByCityId(int cityId) {
         return zoneRepository.findByCityCityId(cityId).stream()
@@ -159,5 +168,71 @@ public class DgmService {
         distribution.setIssued_to_emp_id(receiverEmpId);
         
         distributionRepository.save(distribution);
+    }
+    
+    //update 
+ // ---------------------- NEW METHOD FOR UPDATING A RECORD ----------------------
+    @Transactional
+    public void updateForm(Integer distributionId, FormSubmissionDTO formDto) {
+        // Find the existing distribution record to update
+        Distribution existingDistribution = distributionRepository.findById(distributionId)
+                .orElseThrow(() -> new RuntimeException("Distribution record not found with ID: " + distributionId));
+ 
+        // Get the original application range and count from the existing record
+        int originalAppFrom = existingDistribution.getAppStartNo();
+        int originalAppTo = existingDistribution.getAppEndNo();
+        int originalRange = existingDistribution.getTotalAppCount();
+       
+        int newAppFrom = Integer.parseInt(formDto.getApplicationNoFrom());
+        int newAppTo = Integer.parseInt(formDto.getApplicationNoTo());
+        int newRange = formDto.getRange();
+       
+        int issuerUserId = formDto.getUserId();
+        int receiverEmpId = formDto.getDgmEmployeeId();
+       
+        // --- Part 1: Revert the old balance changes (for the issuer and receiver) ---
+        // This is a crucial step to maintain data integrity. We undo the previous transaction
+        // before applying the new one.
+       
+        // Revert the issuer's balance
+        BalanceTrack issuerBalance = balanceTrackRepository.findById(formDto.getSelectedBalanceTrackId())
+                .orElseThrow(() -> new RuntimeException("The selected application range for the issuer was not found."));
+        issuerBalance.setAppAvblCnt(issuerBalance.getAppAvblCnt() + originalRange); // Add back the original range
+        issuerBalance.setAppFrom(originalAppFrom); // Set the 'from' number back to its original state
+        balanceTrackRepository.save(issuerBalance);
+ 
+        // Revert the receiver's balance (find by current academic year and DGM employee ID)
+        BalanceTrack receiverBalance = balanceTrackRepository.findBalanceTrack(existingDistribution.getAcademicYear().getAcdcYearId(), existingDistribution.getIssued_to_emp_id())
+                .orElseThrow(() -> new RuntimeException("Receiver's balance track not found for update."));
+        receiverBalance.setAppAvblCnt(receiverBalance.getAppAvblCnt() - originalRange); // Subtract the original range
+        receiverBalance.setAppTo(originalAppTo); // Set the 'to' number back to its original state
+        balanceTrackRepository.save(receiverBalance);
+ 
+ 
+        // --- Part 2: Apply the new balance changes (same logic as submitForm) ---
+        // This is where we re-apply the logic from the 'submitForm' method.
+       
+        // Update the issuer's balance with the new values
+        issuerBalance.setAppAvblCnt(issuerBalance.getAppAvblCnt() - newRange);
+        issuerBalance.setAppFrom(newAppTo + 1);
+        balanceTrackRepository.save(issuerBalance);
+ 
+        // Update the receiver's balance with the new values
+        receiverBalance.setAppAvblCnt(receiverBalance.getAppAvblCnt() + newRange);
+        receiverBalance.setAppTo(newAppTo);
+        balanceTrackRepository.save(receiverBalance);
+ 
+        // --- Part 3: Update the Distribution Record itself ---
+        existingDistribution.setAcademicYear(academicYearRepository.findById(formDto.getAcademicYearId()).orElse(null));
+        existingDistribution.setZone(zoneRepository.findById(formDto.getZoneId()).orElse(null));
+        existingDistribution.setCampus(campusRepository.findById(formDto.getCampusId()).orElse(null));
+        existingDistribution.setCity(cityRepository.findById(formDto.getCityId()).orElse(null));
+        existingDistribution.setAppStartNo(newAppFrom);
+        existingDistribution.setAppEndNo(newAppTo);
+        existingDistribution.setTotalAppCount(newRange);
+        existingDistribution.setIssueDate(LocalDate.now());
+        existingDistribution.setCreated_by(issuerUserId);
+       
+        distributionRepository.save(existingDistribution);
     }
 }

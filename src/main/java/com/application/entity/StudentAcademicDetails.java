@@ -1,6 +1,9 @@
 package com.application.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -14,27 +17,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="sce_stud_acdc_detls" , schema = "sce_student")
+@Table(name = "sce_stud_acdc_detls", schema = "sce_student")
 public class StudentAcademicDetails {
 
 	@Id
 	private int stud_adms_id;
-	private String stud_adms_no;
+	@Column(name = "stud_adms_no") 
+	private String studAdmsNo;
 	private String ht_no;
 	private String first_name;
 	private String last_name;
-	private LocalDate adms_date;
+	private Date adms_date;
 	private int created_by;
-	private LocalDate dob;
+	private Date doj;
 	private int course_track_id;
-	private int course_batch;
-	private String school_name;
+	private int course_batch_id;
+	private String pre_school_name;
 	private String admission_referred_by;
 	private String score_app_no;
 	private int score_marks;
-	private LocalDate course_date;
+	private Date course_date;
 	private int additional_course_fee;
-	
+	private Date app_sale_date;
+	private Date app_conf_date;
 
 	@ManyToOne
 	@JoinColumn(name = "acdc_year_id")
@@ -75,7 +80,7 @@ public class StudentAcademicDetails {
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "class_id")
 	private StudentClass studentClass;
@@ -83,31 +88,31 @@ public class StudentAcademicDetails {
 	@ManyToOne
 	@JoinColumn(name = "pro_id", referencedColumnName = "emp_id")
 	private Employee employee;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "school_state_id", referencedColumnName = "state_id")
+	@JoinColumn(name = "pre_school_state_id", referencedColumnName = "state_id")
 	private State state;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "school_district_id", referencedColumnName = "district_id")
+	@JoinColumn(name = "pre_school_district_id", referencedColumnName = "district_id")
 	private District district;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "school_type_id")
 	private CampusSchoolType campusSchoolType;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "stream_id")
 	private Stream stream;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "program_id")
 	private ProgramName programName;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "exam_program_id")
 	private ExamProgram examProgram;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cmps_course_track_id")
 	private CmpsCourseTrack cmpsCourseTrack;

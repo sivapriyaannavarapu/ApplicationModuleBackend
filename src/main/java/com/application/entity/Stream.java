@@ -21,7 +21,7 @@ public class Stream {
 	private int stream_id;
 	@Column(name = "stream_name")
     private String streamName; 
-	private String stream_color;
+	private String stream_colour;
 	private int test_stream;
 	private int onsite_reg;
 	

@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppNumberRangeDTO {
-    private int id; // This will be the balance_track_id
+public class ApplicationStartEndDto {
     private int appFrom;
     private int appTo;
 }

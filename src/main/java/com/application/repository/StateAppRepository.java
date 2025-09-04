@@ -1,5 +1,7 @@
 package com.application.repository;
  
+
+import com.application.dto.ApplicationStartEndDto;
 import com.application.entity.StateApp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,13 @@ public interface StateAppRepository extends JpaRepository<StateApp, Integer> {
     @Query("SELECT s.app_end_no FROM StateApp s WHERE s.state.stateId = :stateId AND s.created_by = :userId")
     Integer findAppEndNoByStateAndUser(@Param("stateId") int stateId, @Param("userId") int userId);
     
+    @Query("SELECT new com.application.dto.ApplicationStartEndDto(s.app_start_no, s.app_end_no) " +
+            "FROM StateApp s " +
+            "WHERE s.academicYear.acdcYearId = :academicYearId " +
+            "AND s.state.stateId = :stateId " +
+            "AND s.created_by = :createdBy")
+     Optional<ApplicationStartEndDto> findAppNumberRanges(
+         @Param("academicYearId") int academicYearId,
+         @Param("stateId") int stateId,
+         @Param("createdBy") int createdBy);
 }

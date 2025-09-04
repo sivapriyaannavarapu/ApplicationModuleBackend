@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.application.dto.AppNumberRangeDTO;
+import com.application.dto.ApplicationStartEndDto;
 import com.application.dto.GenericDropdownDTO;
 import com.application.entity.AcademicYear;
+import com.application.entity.Campus;
 import com.application.entity.City;
 import com.application.entity.District;
 import com.application.entity.Employee;
@@ -48,7 +50,7 @@ public class DistributionGet {
 		return ResponseEntity.ok(distributionService.getAllStates());
 	}
 
-	@GetMapping("/cities/{stateId}")
+	@GetMapping("/city/{stateId}")
 	public ResponseEntity<List<City>> getCitiesByState(@PathVariable int stateId) {
 		return ResponseEntity.ok(distributionService.getCitiesByState(stateId));
 	}
@@ -70,6 +72,20 @@ public class DistributionGet {
 		String nextAppNumber = distributionService.getNextApplicationNumber(academicYearId, stateId, userId);
 		return ResponseEntity.ok(nextAppNumber);
 	}
+	
+	@GetMapping("/app-number-from-to")
+    public ResponseEntity<ApplicationStartEndDto> getAppNumberRanges(
+        @RequestParam int academicYearId,
+        @RequestParam int stateId,
+        @RequestParam int createdBy) {
+        
+        try {
+            ApplicationStartEndDto ranges = distributionService.getAppNumberRanges(academicYearId, stateId, createdBy);
+            return ResponseEntity.ok(ranges);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 	
 	@GetMapping("/app-end-number")
 	public ResponseEntity<Integer> getAppEndNumber(@RequestParam int stateId, @RequestParam int userId) {
@@ -163,6 +179,16 @@ public class DistributionGet {
 	    {
 	    	return campusService.getAllDistricts();
 	    }
+	    
+	    @GetMapping("/zones")
+		public List<Zone> fetchAll(){
+			return applicationService.findAllZones();
+		}
+	    
+	    @GetMapping("/Campus")
+		public List<Campus> fetchAllCampus(){
+			return applicationService.fetchAllCampuses();
+		}
 	 
 	 
 }

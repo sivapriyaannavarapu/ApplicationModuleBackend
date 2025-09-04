@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppStatusTrackDTO {
  
-    private int totalApplications;
-    private int appSold;
-    private int appConfirmed;
-    private int appAvailable;
-    private int appIssued;
-    private int appDamaged;
-    private int appUnavailable;
-    private int withPro;
+    private Long totalApplications;
+    private Long appSold;
+    private Long appConfirmed;
+    private Long appAvailable;
+    private Long appIssued;
+    private Long appDamaged;
+    private Long appUnavailable;
  
 }

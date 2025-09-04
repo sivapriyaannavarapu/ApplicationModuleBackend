@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,9 +18,11 @@ import lombok.NoArgsConstructor;
 public class StudentConcessionType {
 
 	@Id
-	private int stud_conc_type_id;
-	private int acad_id;
-	private int stud_adms_id;
+	private int stud_conc_detls_id;
+	@Column(name = "acad_id")
+	private int acadId;
+	@Column(name = "stud_adms_id")
+	private int studAdmsId;
 	private float conc_amount;
 	private int conc_issued_by;
 	private int conc_authorised_by;

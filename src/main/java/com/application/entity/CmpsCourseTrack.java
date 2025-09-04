@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -19,8 +20,10 @@ public class CmpsCourseTrack {
 	
 	@Id
 	private int cmps_course_track_id;
-	private int cmps_id;
-	private int acdc_year_id;
+	@Column(name = "cmps_id")
+	private int cmpsId;
+	@Column(name = "acdc_year_id")
+	private Integer acdcYearId;
 	private float course_fee;
 	
 	@ManyToOne
