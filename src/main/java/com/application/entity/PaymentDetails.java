@@ -3,6 +3,8 @@ package com.application.entity;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,17 +21,19 @@ import lombok.NoArgsConstructor;
 public class PaymentDetails {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stud_payment_detls_id;
 	private float app_fee;
 	private float conc_amount;
 	private float paid_amount;
 	private float due;
 	private int created_by;
+	private String pre_print_receipt_no; 
 	private Date application_fee_pay_date;
 
 	@ManyToOne
 	@JoinColumn(name = "payment_mode_id")
-	private PaymentMode paymentMode;
+	private PaymentMode paymenMode;
 
 	@ManyToOne
 	@JoinColumn(name = "stud_adms_id")
@@ -51,5 +55,5 @@ public class PaymentDetails {
 	@JoinColumn(name = "status_id")
 	private Status status;
 	
-	
+	 
 }

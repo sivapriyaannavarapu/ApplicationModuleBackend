@@ -1,5 +1,6 @@
 package com.application.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.application.entity.CmpsCourseTrack;
+import com.application.entity.CourseBatch;
 import com.application.entity.CourseTrack;
 
 @Repository
@@ -16,8 +18,6 @@ public interface CmpsCourseTrackRepository extends JpaRepository<CmpsCourseTrack
 	 Optional<CmpsCourseTrack> findByCourseTrack_CourseTrackId(int courseTrackId);
 	 Optional<CmpsCourseTrack> findByCourseTrack(CourseTrack courseTrack);
 
-//	 Optional<StudentAcademicDetails> findByCourseTrackIdAndCmpsIdAndAcdcYearId(Integer courseTrackId, Integer campusId,
-//			Integer academicYearId);
 	 @Query("SELECT c FROM CmpsCourseTrack c WHERE c.courseTrack.courseTrackId = :courseTrackId AND c.cmpsId = :cmpsId AND c.acdcYearId = :acdcYearId")
 	 Optional<CmpsCourseTrack> findByTrackAndCmpsAndYear(
 	     @Param("courseTrackId") Integer courseTrackId,
@@ -30,6 +30,10 @@ public interface CmpsCourseTrackRepository extends JpaRepository<CmpsCourseTrack
 	 Optional<CmpsCourseTrack> findByCmpsIdAndCourseTrack_CourseTrackIdAndCourseBatch_CourseBatchId(
 		        int cmpsId, int courseTrackId, int courseBatchId
 		    );
+	 
+	 @Query("SELECT c.courseBatch FROM CmpsCourseTrack c WHERE c.courseTrack.courseTrackId = :courseTrackId")
+	    List<CourseBatch> findCourseBatchesByCourseTrackId(int courseTrackId);
+
 	 
 	 
 }

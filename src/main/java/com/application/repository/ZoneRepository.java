@@ -10,7 +10,6 @@ import com.application.entity.Zone;
 @Repository
 public interface ZoneRepository extends JpaRepository<Zone, Integer>{
 
-    // Add this line
     List<Zone> findByCityCityId(int cityId);
 
 }

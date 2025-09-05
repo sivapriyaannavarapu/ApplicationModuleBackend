@@ -1,5 +1,6 @@
 package com.application.controller;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,12 @@ import com.application.service.ApplicationConfirmationService;
 
 @RestController
 @RequestMapping("/api/application-confirmation")
-@CrossOrigin(origins = "*") // Adjust based on your frontend URL
+@CrossOrigin(origins = "*") 
 public class ApplicationConfirmationController {
     
     @Autowired
     private ApplicationConfirmationService service;
     
-    // ---------------- Save/Update Admission Details ----------------
     @PostMapping("/save")
     public ResponseEntity<String> saveAdmission(@RequestBody ApplicationConfirmationDto dto) {
         try {
@@ -48,8 +48,6 @@ public class ApplicationConfirmationController {
                     .body("Error: " + e.getMessage());
         }
     }
-    
-    // ---------------- Dropdown Data Endpoints ----------------
     
     @GetMapping("/join-years")
     public ResponseEntity<List<AcademicYear>> getJoinYears() {
@@ -116,13 +114,9 @@ public class ApplicationConfirmationController {
         }
     }
     
-    @GetMapping("/exam-programs")
-    public ResponseEntity<List<ExamProgram>> getExamPrograms() {
-        try {
-            return ResponseEntity.ok(service.getExamPrograms());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @GetMapping("/examprograms")
+    public List<ExamProgram> getAllExamPrograms() {
+        return service.getAllExamPrograms();
     }
     
     @GetMapping("/course-tracks")
@@ -166,5 +160,33 @@ public class ApplicationConfirmationController {
         Optional<EmployeeDetailsDTO> employeeDetails = service.getEmployeeDetailsByAdmissionNo(admissionNo);
         return employeeDetails.map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
                               .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    
+    @GetMapping("/getProgramsByStream")
+    public List<ProgramName> getProgramsByStream(@RequestParam int streamId) {
+        return service.getProgramsByStream(streamId);
+    }
+    
+    @GetMapping("/by-course-track/id/{courseTrackId}")
+    public List<Stream> getStreamsByCourseTrackId(@PathVariable int courseTrackId) {
+        return service.getStreamsByCourseTrackId(courseTrackId);
+    }
+    
+    @GetMapping("/getbatches/{courseTrackId}")
+    public List<CourseBatch> getCourseBatchesByCourseTrackId(@PathVariable int courseTrackId) {
+        return service.getCourseBatchesByCourseTrackId(courseTrackId);
+    }
+    
+    @GetMapping("/examPrograms/{programId}")
+    public List<ExamProgram> getExamProgramsByProgram(@PathVariable int programId) {
+        ProgramName programName = new ProgramName();  
+        programName.setProgramId(programId);
+        
+        return service.getExamProgramsByProgramId(programId);
+    }
+    
+    @GetMapping("/dropdownforjoinyear")
+    public Map<String, Object> getAcademicYears() {
+        return service.getDropdownAcademicYears();
     }
 }

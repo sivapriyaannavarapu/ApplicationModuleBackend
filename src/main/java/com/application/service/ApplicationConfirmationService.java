@@ -1,6 +1,9 @@
 package com.application.service;
 
+import java.time.Year;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,6 +67,7 @@ public class ApplicationConfirmationService {
     @Autowired private CourseBatchRepository courseBatchRepo;
     @Autowired private SectionRepository sectionRepo;
     @Autowired private CmpsCourseTrackRepository cmpsCourseTrackRepo;
+    @Autowired private ProgramNameRepository programNameRepository;
 
     public List<AcademicYear> getJoinYears() {
         return academicYearRepo.findAll();
@@ -76,8 +80,8 @@ public class ApplicationConfirmationService {
     public List<ProgramName> getPrograms() {
         return programRepo.findAll();
     }
-
-    public List<ExamProgram> getExamPrograms() {
+    
+    public List<ExamProgram> getAllExamPrograms() {
         return examProgramRepo.findAll();
     }
 
@@ -92,16 +96,47 @@ public class ApplicationConfirmationService {
     public List<Section> getSections() {
         return sectionRepo.findAll();
     }
-
+    
+    public List<ProgramName> getProgramsByStream(int streamId) {
+        return programNameRepository.findByStreamId(streamId);
+    }
+  
+    public List<Stream> getStreamsByCourseTrackId(int courseTrackId) {
+        return streamRepo.findByCourseTrack_CourseTrackId(courseTrackId);
+    }
+    
+    public List<CourseBatch> getCourseBatchesByCourseTrackId(int courseTrackId) {
+        return cmpsCourseTrackRepo.findCourseBatchesByCourseTrackId(courseTrackId);
+    }
     public List<ConcessionReason> getConcessionReasons() {
         return concessionReasonRepo.findAll();
     }
+    
+    public List<ExamProgram> getExamProgramsByProgramId(int programId) {
+        return examProgramRepo.findByProgramName_programId(programId);
+    }
+    
+    public Map<String, Object> getDropdownAcademicYears() {
+        int currentYear = Year.now().getValue(); 
+        int nextYear = currentYear + 1;          
 
+        List<AcademicYear> years = academicYearRepo.findByYearIn(
+                List.of(currentYear, nextYear)
+        );
+
+        AcademicYear defaultYear = years.stream()
+                .filter(y -> y.getYear() == nextYear)
+                .findFirst()
+                .orElse(null);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("default", defaultYear);
+        response.put("options", years);
+
+        return response;
+    }
     // ---------------- Auto Populate Methods ---------------- //
 
-    /**
-     * Auto-populate course batch start/end dates
-     */
     public BatchDatesResponse getCourseBatchDetails(Integer batchId) {
         CourseBatch batch = courseBatchRepo.findById(batchId)
                 .orElseThrow(() -> new RuntimeException("Invalid Batch ID: " + batchId));
@@ -110,12 +145,9 @@ public class ApplicationConfirmationService {
     }
 
     public CampusAndZoneDTO getCampusAndZoneByAdmissionNo(String admissionNo) {
-        // Use the correct repository method which returns an Optional
         return academicRepo.findByStudAdmsNo(admissionNo)
             .map(studentDetails -> {
-                // Check if both campus and its associated zone exist
                 if (studentDetails.getCampus() != null && studentDetails.getCampus().getZone() != null) {
-                    // Create and populate the DTO
                     CampusAndZoneDTO dto = new CampusAndZoneDTO();
                     dto.setCampusId(studentDetails.getCampus().getCampusId());
                     dto.setCampusName(studentDetails.getCampus().getCampusName());
@@ -123,9 +155,9 @@ public class ApplicationConfirmationService {
                     dto.setZoneName(studentDetails.getCampus().getZone().getZoneName());
                     return dto;
                 }
-                return null; // Return null if campus or zone is not available
+                return null;
             })
-            .orElse(null); // Return null if student is not found
+            .orElse(null);
     }
     
     public Optional<Float> getCourseFeeByDetails(int cmpsId, int courseTrackId, int courseBatchId) {
@@ -137,7 +169,6 @@ public class ApplicationConfirmationService {
     }
     
     public Optional<StudentDetailsDTO> getStudentDetailsByAdmissionNo(String admissionNo) {
-        // Step 1: Find StudentAcademicDetails
         Optional<StudentAcademicDetails> academicDetailsOptional = academicRepo.findByStudAdmsNo(admissionNo);
 
         if (academicDetailsOptional.isEmpty()) {
@@ -147,12 +178,10 @@ public class ApplicationConfirmationService {
         StudentAcademicDetails academicDetails = academicDetailsOptional.get();
         int studAdmsId = academicDetails.getStud_adms_id();
 
-        // Step 2 & 3: Fetch other details and handle potential nulls
         Optional<StudentPersonalDetails> personalDetailsOptional = personalRepo.findByStudentAcademicDetails(academicDetails);
         Optional<PaymentDetails> paymentDetailsOptional = paymentDetailsRepository.findByStudentAcademicDetails(academicDetails);
         List<StudentConcessionType> concessions = concessionRepo.findByStudAdmsId(studAdmsId);
 
-        // Populate the DTO
         StudentDetailsDTO dto = new StudentDetailsDTO();
         
         dto.setStudentName(academicDetails.getFirst_name());
@@ -167,17 +196,13 @@ public class ApplicationConfirmationService {
             dto.setApplicationFee(payment.getApp_fee());
             dto.setConfirmationAmount(payment.getPaid_amount());
         });
-        
-        // Populate concessions
+
         dto.setConcessionAmounts(concessions.stream()
                 .map(StudentConcessionType::getConc_amount)
                 .collect(Collectors.toList()));
 
         return Optional.of(dto);
     }
-
-    
-
 
     // ---------------- Save/Update Admission ---------------- //
 
@@ -190,10 +215,8 @@ public class ApplicationConfirmationService {
                 .findByStudAdmsNo(dto.getAdmissionNo())
                 .orElseThrow(() -> new RuntimeException("Invalid Admission No: " + dto.getAdmissionNo()));
 
-        // Save or update concessions (3 rows: 1st, 2nd, 3rd year)
         saveOrUpdateConcessions(dto, academicDetails);
 
-        // Update dropdown selections (foreign keys)
         updateAcademicDetails(dto, academicDetails);
 
         academicRepo.save(academicDetails);
@@ -207,20 +230,16 @@ public class ApplicationConfirmationService {
             return;
         }
 
-        // For each concession in the DTO, find if it exists and update, or create new
         for (ConcessionDTO conc : dto.getConcessions()) {
-            // Try to find existing concession for this student and concession type
         	Optional<StudentConcessionType> existingConcession = findConcessionByStudentAndType(
         	        academicDetails.getStud_adms_id(), conc.getConcessionTypeId());
 
             StudentConcessionType entity;
             
             if (existingConcession.isPresent()) {
-                // Update existing concession
                 entity = existingConcession.get();
                 entity.setConc_amount(conc.getConcessionAmount().floatValue());
 
-                // FIX: Handle null check for concession reason
                 ConcessionReason currentReason = entity.getConcessionReason();
                 if (currentReason != null && currentReason.getConc_reason_id() != conc.getReasonId()) { // Changed equals to !=
                     ConcessionReason reason = concessionReasonRepo.findById(conc.getReasonId())
@@ -232,20 +251,22 @@ public class ApplicationConfirmationService {
                     entity.setConcessionReason(reason);
                 }
             }else {
-                // Create new concession
                 entity = new StudentConcessionType();
                 entity.setStudAdmsId(academicDetails.getStud_adms_id());
-                entity.setAcadId(getAcademicYearIdForConcession(conc.getConcessionTypeId()));
+                AcademicYear year = academicYearRepo.findById(
+                        getAcademicYearIdForConcession(conc.getConcessionTypeId())
+                    )
+                    .orElseThrow(() -> new RuntimeException("Invalid Academic Year ID"));
+                entity.setAcademicYear(year);
+
                 entity.setConc_amount(conc.getConcessionAmount().floatValue());
                 
-                // Set concession type (1st, 2nd, 3rd year)
                 ConcessionType concessionType = concessionTypeRepo
                         .findById(conc.getConcessionTypeId())
                         .orElseThrow(() -> new RuntimeException("Concession type not found for ID: " + conc.getConcessionTypeId()));
                 
                 entity.setConcessionType(concessionType);
                 
-                // Set concession reason
                 ConcessionReason reason = concessionReasonRepo.findById(conc.getReasonId())
                         .orElseThrow(() -> new RuntimeException("Invalid Concession Reason ID: " + conc.getReasonId()));
                 entity.setConcessionReason(reason);
@@ -293,10 +314,7 @@ public class ApplicationConfirmationService {
 
     // Helper method to get academic year ID based on concession type ID
     private Integer getAcademicYearIdForConcession(Integer concessionTypeId) {
-        // Implement logic to map concession type ID to academic year ID
-        // This will depend on your database structure
-        // For example, if concessionTypeId 1 = 1st year, 2 = 2nd year, 3 = 3rd year
-        return concessionTypeId; // This is just an example - adjust based on your actual mapping
+        return concessionTypeId; 
     }
 
     // Alternative method if the repository query still has issues

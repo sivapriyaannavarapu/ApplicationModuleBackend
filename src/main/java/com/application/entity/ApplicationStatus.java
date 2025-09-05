@@ -1,20 +1,26 @@
 package com.application.entity;
-
+ 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+ 
+ 
+@Entity
+ 
+ 
+ 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name="sce_orientation" , schema = "sce_course")
-public class CourseOrientation {
+@Table(name="sce_status", schema="sce_application")
+public class ApplicationStatus {
+	
 	
 	@Id
-	private int orientation_id;
-	private String orientation_type;
+	private int status_id;
+	private String status;
+	
 }

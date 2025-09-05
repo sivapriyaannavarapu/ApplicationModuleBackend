@@ -1,6 +1,5 @@
 package com.application.entity;
-
-import jakarta.annotation.Generated;
+ 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +10,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+ 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,9 +21,9 @@ public class OrganizationBankDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int org_bank_details;
+	private int org_bank_details_id;
 	private String account_name;
-	private int account_number;
+	private Long account_number;
 	private String account_type;
 	private String bank_name;
 	private String bank_branch;
@@ -37,4 +36,14 @@ public class OrganizationBankDetails {
 	@ManyToOne
 	@JoinColumn(name = "cmps_id")
 	private Campus campus;
+	
+	@ManyToOne
+	@JoinColumn(name="org_bank_id")
+	private OrgBank orgBank;
+	
+	@ManyToOne
+	@JoinColumn(name="org_bank_branch_id")
+	private OrgBankBranch orgBankBranch;
 }
+ 
+ 

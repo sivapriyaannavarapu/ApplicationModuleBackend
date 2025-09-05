@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ConcessionDTO {
-    private Integer concessionTypeId;   // 1st/2nd/3rd year
+    private Integer concessionTypeId;  
     private Double concessionAmount;
-    private Integer reasonId;           // dropdown reason
+    private Integer reasonId;
 }

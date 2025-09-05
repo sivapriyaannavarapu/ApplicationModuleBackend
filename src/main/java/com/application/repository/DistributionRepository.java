@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DistributionRepository extends JpaRepository<Distribution, Integer> {
 
-    // This is the final, correct version of the method
     @Query(value = "SELECT MAX(d.app_end_no) FROM sce_application.sce_app_distrubution d WHERE d.state_id = :stateId AND d.created_by = :userId AND d.acdc_year_id = :academicYearId", nativeQuery = true)
     Integer findMaxAppEndNo(@Param("stateId") int stateId, @Param("userId") int userId, @Param("academicYearId") int academicYearId);
 }

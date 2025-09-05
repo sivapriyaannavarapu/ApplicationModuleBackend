@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 public class Stream {
 	
 	@Id
-	private int stream_id;
+	@Column(name = "stream_id")
+	private int streamId;
 	@Column(name = "stream_name")
     private String streamName; 
 	private String stream_colour;

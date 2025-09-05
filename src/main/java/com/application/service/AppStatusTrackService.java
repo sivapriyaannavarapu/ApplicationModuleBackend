@@ -16,15 +16,13 @@ public class AppStatusTrackService {
     private AppStatusTrackRepository appStatusTrackRepository;
  
     public List<MetricCardDTO> getDashboardCards() {
-        // Fetch the aggregated stats from the repository
-        Optional<AppStatusTrackDTO> currentStatsOptional = appStatusTrackRepository.findLatestAggregatedStats();
         
-        // Provide a default empty DTO if no data is found
+        Optional<AppStatusTrackDTO> currentStatsOptional = appStatusTrackRepository.findLatestAggregatedStats();
+
         AppStatusTrackDTO currentStats = currentStatsOptional.orElse(new AppStatusTrackDTO());
  
         List<MetricCardDTO> cards = new ArrayList<>();
- 
-        // Map each metric to a MetricCardDTO. The percentage change is set to 0.
+
         cards.add(new MetricCardDTO("Total Applications", Math.toIntExact(currentStats.getTotalApplications() != null ? currentStats.getTotalApplications() : 0L), 0, "total_applications"));
         cards.add(new MetricCardDTO("Sold", Math.toIntExact(currentStats.getAppSold() != null ? currentStats.getAppSold() : 0L), 0, "sold"));
         cards.add(new MetricCardDTO("Confirmed", Math.toIntExact(currentStats.getAppConfirmed() != null ? currentStats.getAppConfirmed() : 0L), 0, "confirmed"));
@@ -37,10 +35,8 @@ public class AppStatusTrackService {
     }
     
     public AppStatusTrackDTO getAppStatusByIssuedTypeAndEmployee(Integer issuedTypeId, Integer empId) {
-        // Call the new repository method to fetch the aggregated data
         Optional<AppStatusTrackDTO> statsOptional = appStatusTrackRepository.findAggregatedStatsByIssuedTypeAndEmployee(issuedTypeId, empId);
 
-        // Return the DTO if present, otherwise return a new, empty DTO to prevent NullPointerException.
         return statsOptional.orElse(new AppStatusTrackDTO());
     }
     

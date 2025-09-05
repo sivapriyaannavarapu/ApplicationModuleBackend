@@ -30,7 +30,5 @@ public interface BalanceTrackRepository extends JpaRepository<BalanceTrack, Inte
     );
     
     Optional<BalanceTrack> findByCreatedByAndAcademicYear(int createdBy, AcademicYear academicYear);
-    //update method
-//    Optional<BalanceTrack> findByAcademicYearAcademicYearIdAndEmployee_Id(int academicYearId, int employeeId);
 
 }

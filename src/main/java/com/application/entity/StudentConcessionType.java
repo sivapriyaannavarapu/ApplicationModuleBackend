@@ -1,7 +1,11 @@
 package com.application.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,14 +22,16 @@ import lombok.NoArgsConstructor;
 public class StudentConcessionType {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stud_conc_detls_id;
-	@Column(name = "acad_id")
-	private int acadId;
 	@Column(name = "stud_adms_id")
 	private int studAdmsId;
 	private float conc_amount;
 	private int conc_issued_by;
 	private int conc_authorised_by;
+	private int is_active;
+	private LocalDateTime created_Date;
+	private int created_by;
 
 	@ManyToOne
 	@JoinColumn(name = "conc_type_id")
@@ -34,4 +40,8 @@ public class StudentConcessionType {
 	@ManyToOne
 	@JoinColumn(name = "reason_conc_id", referencedColumnName = "conc_reason_id")
 	private ConcessionReason concessionReason;
+	
+	@ManyToOne
+	@JoinColumn(name = "acad_year_id" , referencedColumnName = "acdc_year_id")
+	private AcademicYear academicYear;
 }

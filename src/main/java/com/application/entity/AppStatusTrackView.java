@@ -22,7 +22,7 @@ public class AppStatusTrackView {
 	private int num;
 	private String pro_name;
 	private String dgm_name;
-	private String zonal_name;
+	private String zone_name;
 	private int cmps_id;
 	private String cmps_name;
 	private String status;

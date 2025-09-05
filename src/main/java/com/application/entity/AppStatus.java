@@ -1,6 +1,7 @@
 package com.application.entity;
 
-import jakarta.annotation.Generated;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,15 +26,17 @@ public class AppStatus {
 	private int app_no;
 	private String reason;
 	private int is_active;
-	private int created_by;
+	private Integer created_by;
+	private Integer updated_by;
+	private LocalDate updated_date;
 	
 	@ManyToOne
 	@JoinColumn(name = "pro_id", referencedColumnName = "emp_id")
 	private Employee employee;
 	
 	@ManyToOne
-	@JoinColumn(name = "zone_emp_id", referencedColumnName = "emp_id")
-	private Employee employee1;
+	@JoinColumn(name = "zone_id")
+	private Zone zone;
 	
 	@ManyToOne
 	@JoinColumn(name = "dgm_emp_id", referencedColumnName = "emp_id")

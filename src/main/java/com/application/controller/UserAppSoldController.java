@@ -44,7 +44,6 @@ public class UserAppSoldController {
         return userAppSoldService.getDropRatedDgms();
     }
     
-    // New Campus Endpoints
     @GetMapping("/campus/top-rated")
     public List<ZonePerformanceDTO> getTopRatedCampus() {
         return userAppSoldService.getTopRatedCampus();

@@ -12,10 +12,9 @@ import java.util.Optional;
 @Repository
 public interface StateAppRepository extends JpaRepository<StateApp, Integer> {
  
-    // CORRECTED QUERY: Changed "s.createdBy" to "s.created_by"
     @Query("SELECT s FROM StateApp s WHERE s.state.stateId = :stateId AND s.created_by = :userId AND s.academicYear.acdcYearId = :academicYearId")
     Optional<StateApp> findStartNumber(@Param("stateId") int stateId, @Param("userId") int userId, @Param("academicYearId") int academicYearId);
-// In StateAppRepository.java
+
     @Query("SELECT s.app_end_no FROM StateApp s WHERE s.state.stateId = :stateId AND s.created_by = :userId")
     Integer findAppEndNoByStateAndUser(@Param("stateId") int stateId, @Param("userId") int userId);
     

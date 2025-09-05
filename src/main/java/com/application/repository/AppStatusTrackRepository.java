@@ -16,7 +16,7 @@ public interface AppStatusTrackRepository extends JpaRepository<AppStatusTrack, 
     @Query("SELECT new com.application.dto.AppStatusTrackDTO(" +
            "SUM(t.totalApp), SUM(t.appSold), SUM(t.appConfirmed), " +
            "SUM(t.appAvailable), SUM(t.appIssued), SUM(t.appDamaged), " +
-           "SUM(t.appUnavailable)) " + // Note the added space after the closing parenthesis
+           "SUM(t.appUnavailable)) " + 
            "FROM AppStatusTrack t WHERE t.isActive = 1")
     Optional<AppStatusTrackDTO> findLatestAggregatedStats();
     

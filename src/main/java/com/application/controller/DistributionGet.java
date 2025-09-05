@@ -118,7 +118,7 @@ public class DistributionGet {
 	        return applicationService.getAllCities();
 	    }
 	 
-	    @GetMapping("/campuses/{zoneId}")
+	    @GetMapping("/campus/{zoneId}")
 	    public List<GenericDropdownDTO> getCampusesByZone(@PathVariable int zoneId) {
 	        return applicationService.getCampusesByZoneId(zoneId);
 	    }
@@ -146,9 +146,7 @@ public class DistributionGet {
 	    
 	    @Autowired
 	    private CampusService dgmService;
-	 
-	    // --- Endpoints for Dropdowns ---
-	    
+	  
 	    @GetMapping("/districts/{stateId}")
 	    public List<GenericDropdownDTO> getDistrictsByState(@PathVariable int stateId) {
 	        return dgmService.getDistrictsByStateId(stateId);

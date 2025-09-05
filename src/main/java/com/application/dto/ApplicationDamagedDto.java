@@ -14,6 +14,6 @@ public class ApplicationDamagedDto {
     private String reason;
     private Integer campusId;
     private Integer proId;
-    private Integer zoneEmpId;
+    private Integer zoneId;
     private Integer dgmEmpId;
 }

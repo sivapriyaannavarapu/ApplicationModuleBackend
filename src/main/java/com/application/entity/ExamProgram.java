@@ -25,7 +25,7 @@ public class ExamProgram {
 	private int acdc_id;
 	private int class_id;
 	private String target_exam;
-	private int status;
+	private Integer status;
 
 	@ManyToOne
 	@JoinColumn(name = "program_id")

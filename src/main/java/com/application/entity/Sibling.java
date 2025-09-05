@@ -1,6 +1,8 @@
 package com.application.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,9 +19,12 @@ import lombok.NoArgsConstructor;
 public class Sibling {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stud_sibling_id;
 	private String sibling_name;
 	private String sibling_school;
+	private int created_by;
+
 	
 	@ManyToOne
 	@JoinColumn(name = "stud_adms_id")

@@ -1,13 +1,9 @@
 package com.application.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -16,20 +12,35 @@ import lombok.NoArgsConstructor;
 @Table(name="sce_stud_addrs" , schema = "sce_student")
 public class StudentAddress {
 
-	@Id
-	private int stud_addrs_id;
-	private String house_no;
-	private String street;
-	private String landmark;
-	private int postal_code;
-	private String city;
-	private String state;
-	private String country;
-	private String campus;
-	private String area;
-	private String district;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int stud_addrs_id;
+    private String house_no;
+    private String street;
+    private String landmark;
+    private String area;
+    @Column(name = "postal_code")
+    private int postalCode;
+    private int created_by;
+    
+    // CORRECTED: All are relationships to master tables
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
-	@ManyToOne
-	@JoinColumn(name = "stud_adms_id")
-	private StudentAcademicDetails studentAcademicDetails;
+    @ManyToOne
+    @JoinColumn(name = "mandal_id")
+    private Mandal mandal;
+
+    @ManyToOne
+    @JoinColumn(name = "district_id")
+    private District district;
+    
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state; // State can also be a relationship
+
+    @ManyToOne
+    @JoinColumn(name = "stud_adms_id")
+    private StudentAcademicDetails studentAcademicDetails;
 }

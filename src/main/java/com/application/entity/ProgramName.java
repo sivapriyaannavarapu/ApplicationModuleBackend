@@ -18,16 +18,18 @@ import lombok.NoArgsConstructor;
 public class ProgramName {
 
 	@Id
-	private int program_id;
+	@Column(name = "program_id")
+	private int programId;
 	@Column(name = "program_name")
 	private String programName;
-	private int stream_id;
+	@Column(name = "stream_id")
+	private int streamId;
 	private int class_id;
-	private int promoting_program_id;
-	private int no_hours_day;
-	private int no_days_week;
-	private int no_of_holidays;
-	private int status;
+	private Integer promoting_program_id;
+	private Integer no_hours_day;
+	private Integer no_days_week;
+	private Integer no_of_holidays;
+	private Integer status;
 
 	@ManyToOne
 	@JoinColumn(name = "course_track_id")

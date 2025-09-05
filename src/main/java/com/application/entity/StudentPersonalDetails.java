@@ -1,9 +1,10 @@
 package com.application.entity;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,12 +21,13 @@ import lombok.NoArgsConstructor;
 public class StudentPersonalDetails {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stud_personal_id;
 	private String father_name;
 	private String mother_name;
-	private BigInteger parent_mobile_no;
+	private long parent_mobile_no;
 	private String parent_mail;
-	private BigInteger stud_aadhaar_no;
+	private long stud_aadhaar_no;
 	private String occupation;
 	private int is_active;
 	private int created_by;

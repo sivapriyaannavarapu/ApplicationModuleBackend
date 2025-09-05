@@ -16,9 +16,12 @@ public interface StudentConcessionTypeRepository extends JpaRepository<StudentCo
 	@Query("SELECT s FROM StudentConcessionType s WHERE s.studAdmsId = :studAdmsId AND s.concessionType.concTypeId = :concTypeId")
 	Optional<StudentConcessionType> findByStudAdmsIdAndConcessionTypeId(@Param("studAdmsId") int studAdmsId, @Param("concTypeId") int concessionTypeId);
 	
-	Optional<StudentConcessionType> findByStudAdmsIdAndAcadId(Integer studAdmsId, Integer acadId);
+	Optional<StudentConcessionType> findByStudAdmsIdAndAcademicYear_AcdcYearId(Integer studAdmsId, Integer acadYearId);
+
 	@Query("SELECT s FROM StudentConcessionType s WHERE s.studAdmsId = :studAdmsId")
 	List<StudentConcessionType> findByStudAdmsId(@Param("studAdmsId") Integer studAdmsId);
 	
 	List<StudentConcessionType> findByStudAdmsId(int studAdmsId);
+	
+
 }

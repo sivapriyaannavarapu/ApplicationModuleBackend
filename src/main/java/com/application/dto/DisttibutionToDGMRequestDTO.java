@@ -30,8 +30,6 @@ public class DisttibutionToDGMRequestDTO {
     @NotNull(message = "Range is required")
     @Min(value = 1, message = "Range must be at least 1")
     private Integer range;
- 
-    // Note: State and District will be derived in the backend
 }
  
  

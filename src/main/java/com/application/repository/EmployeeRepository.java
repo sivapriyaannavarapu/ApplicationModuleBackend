@@ -9,7 +9,6 @@ import com.application.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-    // Get only mobile number by empId
     @Query("SELECT e.primary_mobile_no FROM Employee e WHERE e.emp_id = :empId")
     String findMobileNoByEmpId(int empId);
 }

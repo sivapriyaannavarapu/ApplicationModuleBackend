@@ -5,6 +5,8 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,17 +23,20 @@ import lombok.NoArgsConstructor;
 public class StudentAcademicDetails {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stud_adms_id;
 	@Column(name = "stud_adms_no") 
 	private String studAdmsNo;
 	private String ht_no;
 	private String first_name;
 	private String last_name;
-	private Date adms_date;
+	private LocalDate adms_date;
 	private int created_by;
-	private Date doj;
+	private LocalDate doj;
 	private int course_track_id;
+	@Column(name = "course_batch_id")
 	private int course_batch_id;
+	@Column(name = "pre_school_name")
 	private String pre_school_name;
 	private String admission_referred_by;
 	private String score_app_no;

@@ -11,6 +11,6 @@ public class StudentDetailsDTO {
     private String parentName;
     private String gender;
     private float applicationFee;
-    private float confirmationAmount; // Assuming this is `paid_amount` from PaymentDetails
+    private float confirmationAmount; 
     private List<Float> concessionAmounts;
 }

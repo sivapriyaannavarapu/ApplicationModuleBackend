@@ -84,8 +84,8 @@ public class CampusService {
     }
     
     private int getDgmUserTypeId() {
-        // TODO: Implement logic to find the DGM's type ID based on their role
-        return 3; // Hardcoding '3' for DGM as an example
+        
+        return 3;
     }
     
     // --- Form Submission Logic ---
@@ -96,8 +96,7 @@ public class CampusService {
         int dgmUserTypeId = getDgmUserTypeId();
         int appNoFrom = Integer.parseInt(formDto.getApplicationNoFrom());
         int appNoTo = Integer.parseInt(formDto.getApplicationNoTo());
- 
-        // --- 1. Update the DGM's (Issuer's) Balance ---
+
         BalanceTrack dgmBalance = balanceTrackRepository.findById(formDto.getSelectedBalanceTrackId())
                 .orElseThrow(() -> new RuntimeException("The selected application range for the DGM was not found."));
         
@@ -109,7 +108,6 @@ public class CampusService {
         dgmBalance.setAppFrom(appNoTo + 1);
         balanceTrackRepository.save(dgmBalance);
  
-        // --- 2. Create or Update the PRO's (Receiver's) Balance ---
         Optional<BalanceTrack> proBalanceOpt = balanceTrackRepository.findBalanceTrack(formDto.getAcademicYearId(), proEmployeeId);
         BalanceTrack proBalance;
         if (proBalanceOpt.isPresent()) {
@@ -138,14 +136,12 @@ public class CampusService {
         districtRepository.findById(formDto.getDistrictId()).ifPresent(distribution::setDistrict);
         cityRepository.findById(formDto.getCityId()).ifPresent(distribution::setCity);
         campusRepository.findById(formDto.getCampusId()).ifPresent(distribution::setCampus);
-//        campaignRepository.findById(formDto.getCampaignId()).ifPresent(distribution::setCampaign);
         appIssuedTypeRepository.findById(dgmUserTypeId).ifPresent(distribution::setIssuedByType);
         appIssuedTypeRepository.findById(formDto.getIssuedToId()).ifPresent(distribution::setIssuedToType);
         
         Campus selectedCampus = campusRepository.findById(formDto.getCampusId()).orElse(null);
         distribution.setCampus(selectedCampus);
- 
-        // Now, if the campus was found, get its parent Zone and set it
+
         if (selectedCampus != null) {
             distribution.setZone(selectedCampus.getZone());
         }
@@ -238,7 +234,7 @@ public class CampusService {
         oldDistribution.setTotalAppCount(newRange);
         oldDistribution.setIssued_to_emp_id(newProEmployeeId);
         oldDistribution.setCreated_by(dgmUserId);
-        oldDistribution.setIssueDate(LocalDate.now()); // Update the issue date
+        oldDistribution.setIssueDate(LocalDate.now()); 
        
         // Update other fields as needed
         academicYearRepository.findById(formDto.getAcademicYearId()).ifPresent(oldDistribution::setAcademicYear);
